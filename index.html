@@ -57,54 +57,29 @@ function money(n) {
   return 'RM' + n.toFixed(2);
 }
 
-function renderProducts() {
-  const el = document.getElementById('products');
-  el.innerHTML = products.map((p,i) => `
-    <div class="card">
-      <img src="${p.image}" alt="${p.name}">
-      <div class="info">
-        <div class="name">${p.name}</div>
-        <div class="price">${money(p.price)} / 1</div>
-        <div class="qty">
-          <button onclick="change(${i},-1)">−</button>
-          <span id="q${i}">0</span>
-          <button onclick="change(${i},1)">+</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function change(i,d) {
-  qty[i] = Math.max(0, qty[i] + d);
-  document.getElementById('q'+i).textContent = qty[i];
-  renderCart();
-}
-
-function renderCart() {
-  const selected = products.map((p,i) => ({p,i})).filter(x => qty[x.i] > 0);
-  const total = selected.reduce((s,x) => s + x.p.price * qty[x.i], 0);
-  document.getElementById('total').textContent = money(total);
-  document.getElementById('items').innerHTML = selected.length
-    ? selected.map(x => `${x.p.name} × ${qty[x.i]} = ${money(x.p.price*qty[x.i])}`).join('<br>')
-    : '<span class="empty">Belum ada barang dipilih.</span>';
-}
-
 function checkout() {
-  const selected = products.map((p,i) => ({p,i})).filter(x => qty[x.i] > 0);
-  if (!selected.length) {
-    alert('Sila pilih sekurang-kurangnya satu produk.');
-    return;
-  }
-  const total = selected.reduce((s,x) => s + x.p.price * qty[x.i], 0);
-  let msg = 'Assalamualaikum, saya ingin membuat pesanan dari Ole2 Korea%0A%0A';
-  selected.forEach(x => {
-    msg += `${x.p.name} × ${qty[x.i]} = ${money(x.p.price*qty[x.i])}%0A`;
-  });
-  msg += `%0ATOTAL: ${money(total)}%0A%0ANama:%0ANo. Telefon:%0AAlamat:%0A`;
-  window.open('https://wa.me/60133360473?text=' + msg, '_blank');
-}
+    const selected = products
+        .map((p,i) => ({
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            qty: qty[i]
+        }))
+        .filter(x => x.qty > 0);
 
+    if (!selected.length) {
+        alert('Sila pilih sekurang-kurangnya satu barang.');
+        return;
+    }
+
+    localStorage.setItem(
+        'ole2_cart',
+        JSON.stringify(selected)
+    );
+
+    window.location.href =
+        'https://azni1306.github.io/ole2-korea-cart/';
+}
 renderProducts();
 renderCart();
 </script>
