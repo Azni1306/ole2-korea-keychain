@@ -94,7 +94,7 @@ function renderCart() {
 
   items.innerHTML = html || '<span class="empty">Belum ada barang dipilih.</span>';
 }
-    const selected = products
+    function checkout() {const selected = products
         .map((p,i) => ({
             name: p.name,
             price: p.price,
