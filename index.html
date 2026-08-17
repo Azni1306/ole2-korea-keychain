@@ -56,7 +56,24 @@ const qty = products.map(() => 0);
 function money(n) {
   return 'RM' + n.toFixed(2);
 }
+function renderProducts() {
+  const box = document.getElementById('products');
 
+  box.innerHTML = products.map((p,i) => `
+    <div class="card">
+      <img src="${p.image}">
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="price">${money(p.price)} / 1</div>
+        <div class="qty">
+          <button onclick="qty[${i}] = Math.max(0, qty[${i}] - 1); renderProducts(); renderCart();">−</button>
+          <span>${qty[i]}</span>
+          <button onclick="qty[${i}]++; renderProducts(); renderCart();">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  }
 function checkout() {
     const selected = products
         .map((p,i) => ({
