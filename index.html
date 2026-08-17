@@ -74,7 +74,26 @@ function renderProducts() {
     </div>
   `).join('');
   }
-function checkout() {
+function renderCart() {
+  const items = document.getElementById('items');
+  const total = document.getElementById('total');
+
+  let sum = 0;
+  let html = '';
+
+  products.forEach((p, i) => {
+    if (qty[i] > 0) {
+      const subtotal = p.price * qty[i];
+      sum += subtotal;
+
+      html += `<div>${p.name} x ${qty[i]} = ${money(subtotal)}</div>`;
+    }
+  });
+
+  total.textContent = money(sum);
+
+  items.innerHTML = html || '<span class="empty">Belum ada barang dipilih.</span>';
+}
     const selected = products
         .map((p,i) => ({
             name: p.name,
