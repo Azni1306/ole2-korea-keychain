@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OLE2 KOREA — KEYCHAIN 9IN1</title>
+</head>
+<body>
+<script>
+fetch('https://raw.githubusercontent.com/Azni1306/ole2-korea-keychain/66c3448bd7d5a05d99f1e6f888ee03747a7e33df/9in1.html')
+  .then(r => r.text())
+  .then(html => {
+    document.open();
+    document.write(html);
+    document.close();
+  })
+  .catch(() => {
+    document.body.innerHTML =
+      '<p style="font-family:Arial;text-align:center;padding:40px">Gagal memuatkan halaman 9IN1.</p>';
+  });
+</script>
+</body>
+</html>
